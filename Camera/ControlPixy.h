@@ -16,8 +16,11 @@ struct ControlPixy{
 		Pixy2 pixy;
 	public:
 		void initialize();
-		void updateBlocks();
-		void updatePulse(Bluetooth bt);
+		bool isCompletedJourney(Bluetooth bt);
+		void advance(Bluetooth bt);
+		void turnRight(Bluetooth bt);
+		void turnLeft(Bluetooth bt);
+
 
 };
 

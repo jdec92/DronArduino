@@ -14,6 +14,8 @@ ControlMode::ControlMode(){
 	this->modeDown = false;
 	this->modeUp = false;
 	this->isActiveMode = false;
+	this->isFinishModeUP = true;
+    this->isFinishModeDOWN = true;
 	this->pidAnglePitch = 0.0;
 	this->pidAngleRoll = 0.0;
 	this->actionIntegralPitchW = 0.0;
@@ -88,6 +90,24 @@ void ControlMode::PIDSpeed(Bluetooth bt, MPU6050 mpu){
 	  actionDerivativeYawW = recalibrateGyro.z;
 }
 
+void ControlMode::actionModeUp(Bluetooth bt) {
+    int throttle = bluetooth.getThrottle() + incrementThrottle;
+    if(throttle <= degreeMaxUp){
+        bluetooth.modifyThrottle(throttle);
+    }else{
+        this->isFinishModeUP = true;
+    }
+}
+
+void ControlMode::actionModeDown(Bluetooth bt) {
+    int throttle = bluetooth.getThrottle() - incrementThrottle;
+    if(throttle >= degreeMin){
+        bluetooth.modifyThrottle(throttle);
+    }else{
+        this->isFinishModeDOWN = true;
+    }
+}
+
 float ControlMode::calculateOutPID(float pidError,float valueGiroscope,float kp,float actionIntegral,float kd,float actionDerivate,int limit){
 		  float actionD = kd * (valueGiroscope - actionDerivate);
 		  float outPID = kp * pidError + actionIntegral - actionD;
@@ -126,6 +146,7 @@ void ControlMode::activateModeUp(Bluetooth bt){
 	this->modeUp = true;
 	this->calculateAccelerometer = true;
 	this->calculateGyroscope = true;
+	this->isFinishModeUP = false;
 }
 
 void ControlMode::activateModeDown(Bluetooth bt){
@@ -139,6 +160,7 @@ void ControlMode::activateModeDown(Bluetooth bt){
 	this->modeUp = false;
 	this->calculateAccelerometer =true;
 	this->calculateGyroscope = true;
+	this->isFinishModeDOWN = false;
 }
 
 void ControlMode::activateModeAutomatic(Bluetooth bt){
@@ -152,6 +174,8 @@ void ControlMode::activateModeAutomatic(Bluetooth bt){
 	this->modeUp = false;
 	this->calculateAccelerometer =true;
 	this->calculateGyroscope = true;
+	this->isFinishModeUP = false;
+	this->isFinishModeDOWN = false;
 }
 
 void ControlMode::onLedAccordingMode(Leds leds){
@@ -186,6 +210,14 @@ bool ControlMode::isModeUp(){
 
 bool ControlMode::isModeAutomatic(){
 	return this->modeAutomatic;
+}
+
+bool ControlMode::isFinishModeUp() {
+    return this->isFinishModeUP;
+}
+
+bool ControlMode::isFinishModeDown() {
+    return this->isFinishModeDOWN;
 }
 
 bool ControlMode::isCalculateAcelerometer(){

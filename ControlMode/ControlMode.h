@@ -21,6 +21,7 @@ struct ControlMode {
 		float actionDerivativePitchAng,actionDerivativeRollAng;
 		float outPidPitch,outPidRoll,outPidYaw;
 		bool modeAcrobatic,modeUp,modeDown,modeAutomatic,isActiveMode;
+		bool isFinishModeUP,isFinishModeDOWN;
 		bool calculateAccelerometer;
 		bool calculateGyroscope;
 	public:
@@ -34,12 +35,18 @@ struct ControlMode {
 		void activateModeAutomatic(Bluetooth bt);
 		void onLedAccordingMode(Leds leds);
 
+		void actionModeUp(Bluetooth bt);
+		void actionModeDown(Bluetooth bt);
+
 		float calculateOutPID(float pidError,float valueGiroscope,float kp,float actionIntegral,float kd,float actionDerivate,int limit);
 
 		bool isModeAcrobatic();
 		bool isModeDown();
 		bool isModeUp();
 		bool isModeAutomatic();
+
+		bool isFinishModeUp();
+		bool isFinishModeDown();
 
 		bool isCalculateAcelerometer();
 		bool isCalculateGyroscope();

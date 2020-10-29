@@ -46,7 +46,7 @@ void setup() {
 	if(!mpu6050.initialize() || bateria.isLowBattery()){
 		leds.offAllLeds();
 		leds.onLedWarning();
-		Serial.println("ERROR no se inicia MPU o la Batería esta baja");
+		Serial.println("ERROR no se inicia MPU o la Baterï¿½a esta baja");
 		while (true)delay(10);
 	}
 
@@ -102,28 +102,36 @@ void loop() {
 	}
 
 	if(controlMode.isModeUp()){
-		int throttle = bluetooth.getThrottle() + incrementThrottle;
-		if(throttle <= degreeMaxUp){
-			bluetooth.modifyThrottle(throttle);
-		}else{
-			leds.offAllLeds();
+	    if(controlMode.isFinishModeUp()){
+	        leds.offAllLeds();
 			controlMode.activateModeStable();
-		}
+		}else{
+	        controlMode.actionModeUp(bluetooth);
+	    }
 	}
 
 	if(controlMode.isModeDown() || bateria.isLowBattery()){
-			int throttle = bluetooth.getThrottle() - incrementThrottle;
-			if(throttle >= degreeMin){
-				bluetooth.modifyThrottle(throttle);
-			}else{
-				leds.offAllLeds();
-				controlMode.activateModeStable();
-			}
+	    if(controlMode.isFinishModeDown()){
+            leds.offAllLeds();
+            controlMode.activateModeStable();
+		}else{
+	        controlMode.actionModeDown(bluetooth);
+	    }
 	}
 
 	if(controlMode.isModeAutomatic()){
-		pixy.updateBlocks();
-		pixy.updatePulse(bluetooth);
+	    if(controlMode.isFinishModeUp()){  //Comprobamos si esta a la altura correcta el dron
+            if(pixy.updatePulse(bluetooth)){  //Comprobamos si hemos recorrido el trayecto completo
+                if(controlMode.isFinishModeDown()){ //Comprobamos si hemos atarrezidao el dron
+                    leds.offAllLeds();
+                    controlMode.activateModeStable();
+                }else{                  //Si no hemos aterrizado aterriza el dron
+                    controlMode.actionModeDown(bluetooth);
+                }
+            }
+	    }else{    //Si no hemos despegado o estamos a media altura despega hasta la altura indicada
+	        controlMode.actionModeUp(bluetooth);
+	    }
 	}
 }
 
