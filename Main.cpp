@@ -121,7 +121,7 @@ void loop() {
 
 	if(controlMode.isModeAutomatic()){
 	    if(controlMode.isFinishModeUp()){  //Comprobamos si esta a la altura correcta el dron
-            if(pixy.updatePulse(bluetooth)){  //Comprobamos si hemos recorrido el trayecto completo
+            if(pixy.isCompletedJourney(bluetooth)){  //Comprobamos si hemos recorrido el trayecto completo
                 if(controlMode.isFinishModeDown()){ //Comprobamos si hemos atarrezidao el dron
                     leds.offAllLeds();
                     controlMode.activateModeStable();
