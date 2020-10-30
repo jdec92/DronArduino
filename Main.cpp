@@ -25,7 +25,7 @@ Motor motor2(pinM2);
 Motor motor3(pinM3);
 Motor motor4(pinM4);
 
-Leds leds(ledWhite, ledBlue, ledRedFront, ledGreenFront, ledRedBack);
+Leds leds;
 
 MPU6050 mpu6050(0x68, sdaMPU, sclMPU, numberSampleMPU);
 
