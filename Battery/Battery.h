@@ -9,16 +9,20 @@
 
 #include "../GlobalVariable.h"
 
-struct Battery{
-	private:
-		uint8_t pin;
-		float voltage;
-	public:
-		Battery(uint8_t pin);
-		int readSensor();
-		void updateVoltage(int voltage);
-		float getVoltage();
-		bool isLowBattery();
+struct Battery {
+private:
+    uint8_t pin;
+    float voltage;
+public:
+    Battery(uint8_t pin);
+
+    int readSensor();
+
+    void updateVoltage(int voltage);
+
+    float getVoltage();
+
+    bool isLowBattery();
 };
 
 
