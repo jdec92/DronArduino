@@ -17,11 +17,11 @@
 #define pi 3.1416
 
 //================Leds======================
-#define ledWhite 9
-#define ledBlue 10
-#define ledRedFront 11
-#define ledGreenFront 12
-#define ledRedBack 13
+#define pinLedWhite 9
+#define pinLedBlue 10
+#define pinLedRedFront 11
+#define pinLedGreenFront 12
+#define pinLedRedBack 13
 
 //================Battery======================
 #define pinBattery A0

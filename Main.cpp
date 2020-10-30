@@ -25,7 +25,7 @@ Motor motor2(pinM2);
 Motor motor3(pinM3);
 Motor motor4(pinM4);
 
-Leds leds(ledWhite, ledBlue, ledRedFront, ledGreenFront, ledRedBack);
+Leds leds;
 
 MPU6050 mpu6050(0x68, sdaMPU, sclMPU, numberSampleMPU);
 
@@ -46,7 +46,7 @@ void setup() {
 	if(!mpu6050.initialize() || bateria.isLowBattery()){
 		leds.offAllLeds();
 		leds.onLedWarning();
-		Serial.println("ERROR no se inicia MPU o la Batería esta baja");
+		Serial.println("ERROR no se inicia MPU o la Baterï¿½a esta baja");
 		while (true)delay(10);
 	}
 
