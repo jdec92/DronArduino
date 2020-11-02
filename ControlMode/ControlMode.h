@@ -13,49 +13,68 @@
 #include "../Leds/Leds.h"
 
 struct ControlMode {
-	private:
-		float pidAnglePitch,pidAngleRoll;
-		float actionIntegralPitchW,actionIntegralRollW,actionIntegralYawW;
-		float actionDerivativePitchW,actionDerivativeRollW,actionDerivativeYawW;
-		float actionIntegralPitchAng,actionIntegralRollAng;
-		float actionDerivativePitchAng,actionDerivativeRollAng;
-		float outPidPitch,outPidRoll,outPidYaw;
-		bool modeAcrobatic,modeUp,modeDown,modeAutomatic,isActiveMode;
-		bool isFinishModeUP,isFinishModeDOWN;
-		bool calculateAccelerometer;
-		bool calculateGyroscope;
-	public:
-		ControlMode();
-		void PIDSpeed(Bluetooth bt,MPU6050 mpu);
-		void PIDAnglee(Bluetooth bt,MPU6050 mpu);
-		void activateModeAcrobatic();
-		void activateModeStable();
-		void activateModeDown(Bluetooth bt);
-		void activateModeUp(Bluetooth bt);
-		void activateModeAutomatic(Bluetooth bt);
-		void onLedAccordingMode(Leds leds);
+private:
+    float pidAnglePitch, pidAngleRoll;
+    float actionIntegralPitchW, actionIntegralRollW, actionIntegralYawW;
+    float actionDerivativePitchW, actionDerivativeRollW, actionDerivativeYawW;
+    float actionIntegralPitchAng, actionIntegralRollAng;
+    float actionDerivativePitchAng, actionDerivativeRollAng;
+    float outPidPitch, outPidRoll, outPidYaw;
+    bool modeAcrobatic, modeUp, modeDown, modeAutomatic, isActiveMode;
+    bool isFinishModeUP, isFinishModeDOWN;
+    bool calculateAccelerometer, calculateGyroscope;
+public:
+    ControlMode();
 
-		void actionModeUp(Bluetooth bt);
-		void actionModeDown(Bluetooth bt);
+    void PIDAnglee(Bluetooth bt, MPU6050 mpu);
 
-		float calculateOutPID(float pidError,float valueGiroscope,float kp,float actionIntegral,float kd,float actionDerivate,int limit);
+    void PIDSpeed(Bluetooth bt, MPU6050 mpu);
 
-		bool isModeAcrobatic();
-		bool isModeDown();
-		bool isModeUp();
-		bool isModeAutomatic();
+    float calculatePID(int slogan, float readMPU, float &actionIntegral, float &actionDerivate,
+                       float kp, float ki, float kd, float outLimit, float &outPID);
 
-		bool isFinishModeUp();
-		bool isFinishModeDown();
+    void actionModeUp(Bluetooth bt);
 
-		bool isCalculateAcelerometer();
-		bool isCalculateGyroscope();
+    void actionModeDown(Bluetooth bt);
 
-		float getPidPitch();
-		float getPidRoll();
-		float getPidYaw();
+    void activateModeAcrobatic();
+
+    void activateModeStable();
+
+    void activateModeDown(Bluetooth bt);
+
+    void activateModeUp(Bluetooth bt);
+
+    void activateModeAutomatic(Bluetooth bt);
+
+    void actionAutomatic(Bluetooth bt);
+
+    void disabledAllMode();
+
+    void onLedAccordingMode(Leds leds);
+
+    bool isModeAcrobatic();
+
+    bool isModeDown();
+
+    bool isModeUp();
+
+    bool isModeAutomatic();
+
+    bool isFinishModeUp();
+
+    bool isFinishModeDown();
+
+    bool isCalculateAcelerometer();
+
+    bool isCalculateGyroscope();
+
+    float getPidPitch();
+
+    float getPidRoll();
+
+    float getPidYaw();
 
 };
-
 
 #endif /* CONTROLMODE_CONTROLMODE_H_ */

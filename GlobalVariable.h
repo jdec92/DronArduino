@@ -82,8 +82,8 @@
 #define degreeMaxUp 50
 
 //===============PID=================
-#define limitVelocity 380
-#define limitAngle 130
+#define limitVelocity 380.0
+#define limitAngle 130.0
 
 #define KpPitchAngle 2.2
 #define KiPitchAngle 0.06
@@ -91,7 +91,7 @@
 
 #define KpPitchW 1.9
 #define KiPitchW 0.07
-#define KdPitchW 12
+#define KdPitchW 2.2
 
 #define KpRollAngle 2.2
 #define KiRollAngle 0.06
@@ -99,10 +99,10 @@
 
 #define KpRollW 1.9
 #define KiRollW 0.07
-#define KdRollW 12
+#define KdRollW 2.0
 
 #define KpYawW 1.5
 #define KiYawW 0.05
-#define KdYawW 0
+#define KdYawW 1
 
 #endif /* GLOBALVARIABLE_H_ */
