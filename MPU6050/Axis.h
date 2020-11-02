@@ -7,15 +7,14 @@
 #ifndef MPU6050_AXIS_H_
 #define MPU6050_AXIS_H_
 
+struct Axis {
+public:
+    float x;
+    float y;
+    float z;
 
-	struct Axis {
-		public:
-			float x;
-			float y;
-			float z;
-
-			Axis();
-	};
+    Axis();
+};
 
 
 #endif /* MPU6050_AXIS_H_ */

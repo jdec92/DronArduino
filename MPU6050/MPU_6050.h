@@ -7,53 +7,54 @@
 #ifndef MPU_6050_H_
 #define MPU_6050_H_
 
-
-/*
- * MPU_6050.cpp
- *
- *  Created on: 16 sept. 2020
- *      Author: JD
- */
 #include "../GlobalVariable.h"
 #include "Axis.h"
 #include <Wire.h>
 
 struct MPU6050 {
-	private:
-		int sampleNumber;
-		float pitchAngle,rollAngle,temperature;
-		long loopTimer,executionTime;
-		bool init;
-		uint8_t address,sda,scl;
-		Axis gyroscope;
-		Axis accelerometer;
-		Axis offsetGyroscope;
-		Axis offsetAccelerometer;
+private:
+    int sampleNumber;
+    float pitchAngle, rollAngle, temperature;
+    long loopTimer, executionTime;
+    bool init;
+    uint8_t address, sda, scl;
+    Axis gyroscope;
+    Axis accelerometer;
+    Axis offsetGyroscope;
+    Axis offsetAccelerometer;
 
-	public:
-		MPU6050(uint8_t address,uint8_t sda,uint8_t scl, int sampleNumber);
-		bool initialize();
+public:
+    MPU6050(uint8_t address, uint8_t sda, uint8_t scl, int sampleNumber);
 
-		void calculateOffset(bool calculateGyroscope,bool calculateAccelerometer);
+    bool initialize();
 
-		Axis recalibrateGyroscope();
+    void calculateOffset(bool isCalculateGyroscope, bool isCalculateAccelerometer);
 
-		void readSensors();
-		void processAccelerometer();
-		void calculateAngle();
+    Axis recalibrateGyroscope();
 
-		void transmitData(uint8_t reg,uint8_t data);
-		void transmitAndWaitResponse(uint8_t reg,int numberByte);
+    void readSensors();
 
-		void updateLoopTimer();
-		void updateExecutionTimer(long loopTimer);
+    void processAccelerometer();
 
-		float getExecutionTime();
-		float getLoopTimer();
-		float getPitchAngle();
-		float getRollAngle();
+    void calculateAngle();
 
-		void show(bool showAccelerometre,bool showAnglee);
+    void transmitData(uint8_t reg, uint8_t data);
+
+    void transmitAndWaitResponse(uint8_t reg, int numberByte);
+
+    void updateLoopTimer();
+
+    void updateExecutionTimer(long loopTimer);
+
+    float getPitchAngle();
+
+    float getRollAngle();
+
+    float getLoopTimer();
+
+    float getExecutionTime();
+
+    void show(bool showAccelerometre, bool showAnglee);
 };
 
 
