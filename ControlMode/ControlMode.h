@@ -33,9 +33,11 @@ public:
     float calculatePID(int slogan, float readMPU, float &actionIntegral, float &actionDerivate,
                        float kp, float ki, float kd, float outLimit, float &outPID);
 
+    void commandChangeMode(Bluetooth bt, String value);
+
     void actionModeUp(Bluetooth bt);
 
-    void actionModeDown(Bluetooth bt);
+    void actionModeDown(Bluetooth bt, bool isLowBattery);
 
     void activateModeAcrobatic();
 

@@ -89,21 +89,50 @@ float ControlMode::calculatePID(int slogan, float readMPU, float &actionIntegral
     actionDerivate = readMPU;
 }
 
-void ControlMode::actionModeUp(Bluetooth bt) {
-    int throttle = bluetooth.getThrottle() + incrementThrottle;
-    if (throttle <= degreeMaxUp) {
-        bluetooth.modifyThrottle(throttle);
-    } else {
-        this->isFinishModeUP = true;
+void ControlMode::commandChangeMode(Bluetooth bt, int value) {
+    if (!value.equals("")) {
+        if (value.indexOf(valueModeUp) != -1) {
+            activateModeUp(bt);
+        } else if (value.indexOf(valueModeDown) != -1) {
+            activateModeDown(bt);
+        } else if (value.indexOf(valueModeAcrobatic) != -1) {
+            activateModeAcrobatic();
+        } else if (value.indexOf(valueModeStable) != -1) {
+            activateModeStable();
+        } else if (value.indexOf(valueModeAutomatic) != -1) {
+            activateModeAutomatic(bt);
+        }
     }
 }
 
-void ControlMode::actionModeDown(Bluetooth bt) {
-    int throttle = bluetooth.getThrottle() - incrementThrottle;
-    if (throttle >= degreeMin) {
-        bluetooth.modifyThrottle(throttle);
+void ControlMode::actionModeUp(Bluetooth bt) {
+    if (controlMode.isFinishModeUp()) {
+        controlMode.activateModeStable();
     } else {
-        this->isFinishModeDOWN = true;
+        int throttle = bluetooth.getThrottle() + incrementThrottle;
+        if (throttle <= degreeMaxUp) {
+            bluetooth.modifyThrottle(throttle);
+        } else {
+            this->isFinishModeUP = true;
+        }
+    }
+}
+
+void ControlMode::actionModeDown(Bluetooth bt, bool isLowBattery) {
+    if (controlMode.isFinishModeDown()) { //Comprobamos si hemos atarrezidao el dron
+        if (isLowBattery) {
+            Serial.println("ERROR batería baja");
+            while (true)delay(10);
+        } else {
+            controlMode.activateModeStable();
+        }
+    } else { //Si no hemos aterrizado aterriza el dron
+        int throttle = bluetooth.getThrottle() - incrementThrottle;
+        if (throttle >= degreeMin) {
+            bluetooth.modifyThrottle(throttle);
+        } else {
+            this->isFinishModeDOWN = true;
+        }
     }
 }
 
@@ -165,6 +194,8 @@ void ControlMode::disabledAllMode() {
 
 void ControlMode::onLedAccordingMode(Leds leds) {
     if (!isActiveMode) {
+        leds.offAllLeds();
+
         if (modeAcrobatic) {
             leds.onLedBlue();
             leds.onLedFly();

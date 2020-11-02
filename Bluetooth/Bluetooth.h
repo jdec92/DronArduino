@@ -23,7 +23,7 @@ public:
 
     void configure(String name, String pin);
 
-    void updatePulse();
+    String updatePulse();
 
     void commandChangeThrottle(String value);
 
@@ -40,7 +40,6 @@ public:
     void modifyRoll(int value);
 
     void modifyYaw(int value);
-
 
     float getThrottle();
 

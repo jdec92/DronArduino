@@ -37,7 +37,7 @@ void Bluetooth::configure(String name, String pin) {
 
 }
 
-void Bluetooth::updatePulse() {
+String Bluetooth::updatePulse() {
     String value = waitForResponse();
     if (!value.equals("")) {
         commandChangeThrottle(value);
@@ -46,6 +46,8 @@ void Bluetooth::updatePulse() {
         degreeYaw = commandChangeAngle(degreeYaw, yawUp, yawDown, value);
         commandInitializeMotor(value);
     }
+
+    return value;
 }
 
 void Bluetooth::commandChangeThrottle(String value) {
