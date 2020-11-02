@@ -11,15 +11,19 @@
 #include "Pixy2.h"
 #include "../Bluetooth/Bluetooth.h"
 
-struct ControlPixy{
-	private:
-		Pixy2 pixy;
-	public:
-		void initialize();
-		bool isCompletedJourney(Bluetooth bt);
-		void advance(Bluetooth bt);
-		void turnRight(Bluetooth bt);
-		void turnLeft(Bluetooth bt);
+struct ControlPixy {
+private:
+    Pixy2 pixy;
+public:
+    void initialize();
+
+    bool isCompletedJourney(Bluetooth bt);
+
+    void advance(Bluetooth bt);
+
+    void turnRight(Bluetooth bt);
+
+    void turnLeft(Bluetooth bt);
 
 
 };
